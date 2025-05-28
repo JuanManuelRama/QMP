@@ -1,0 +1,117 @@
+@startuml Class
+top to bottom direction
+
+class Prenda {
+    +Tipo
+    +Formalidad
+    +Material
+    +Patron
+    +ColorPrimario
+    +ColorSecundario
+    +TempMaxima
+    +TempMinima
+}
+
+enum Categoria {
+    INFERIOR
+    SUPERIOR
+    CALZADO
+    ACCESORIO
+}
+
+enum Tipo{
+    CAMISA
+    PANTALON
+    etc
+}
+
+enum Patron {
+    LUNARES
+    RAYADA
+    ESTAMPADA
+    CUADROS
+    LISA
+}
+
+enum Material {
+    ALGODON
+    LYCRA
+    etc
+}
+
+class Usuario {
+    +edad
+    +prendas
+    +motorSugerencia
+}
+
+abstract class MotorSugerencia {
+    +servicioMeteorologico
+
+    +generarSugerencia(Usuario)
+    #filtroPropio(Usuario) {abstract}
+}
+
+class MotorSugerenciaTodas {
+    #filtroPropio(Usuario)
+}
+
+class MotorSugerenciaEdad {
+    #filtroPropio(Usuario)
+}
+
+abstract class ServicioMeteorologico {
+   -periodoValidez
+   -consultas
+   +getEstadoClima(Ciudad)
+   #getClima(Ciudad) {abstract}
+
+
+}
+
+class EstadoClima {
+    +temperatura
+    +humedad
+}
+
+class RespuestaClima {
+    +estadoClima
+    +fechaExpiracion
+
+    +isExpired()
+}
+
+class ServicioMeteorologicoAccuWeather{
+    -accuWeather
+    #getClima(Ciudad)
+}
+
+class AccuWeatherApi {
+    +getWeather()
+}
+
+
+
+enum Humedad {
+    ALTA
+    BAJA
+}
+
+
+
+Prenda *-- Patron
+Prenda *-- Tipo
+Prenda *-- Material
+Tipo *-- Categoria
+Usuario *-- Prenda
+Usuario ..> MotorSugerencia
+MotorSugerencia --> MotorSugerenciaEdad
+MotorSugerencia --> MotorSugerenciaTodas
+MotorSugerencia ..> ServicioMeteorologico
+MotorSugerencia ..> Prenda
+ServicioMeteorologico --> ServicioMeteorologicoAccuWeather
+ServicioMeteorologico ..> RespuestaClima
+RespuestaClima *--EstadoClima
+EstadoClima *-- Humedad
+ServicioMeteorologicoAccuWeather ..> AccuWeatherApi
+@enduml
