@@ -1,4 +1,4 @@
 package QMP.Clima;
 
-public record EstadoClima(int temperatura, Humedad humedad) {
+public record EstadoClima(double temperatura, Humedad humedad) {
 }

@@ -1,22 +1,21 @@
-package QMP;
+package QMP.SugerenciaPrenda;
 
 import QMP.Clima.ServicioMeteorologico;
 import QMP.Prenda.Categoria;
 import QMP.Prenda.Prenda;
+import QMP.Usuario;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public abstract class MotorSugerencia {
-  private ServicioMeteorologico servicioMeteorologico;
 
-  public MotorSugerencia(ServicioMeteorologico servicioMeteorologico) {
-    this.servicioMeteorologico = servicioMeteorologico;
+  public MotorSugerencia() {
   }
 
 
-  public List<List<Prenda>> generarSugerencias(Usuario usuario) {
-    List<Prenda> prendas = usuario.getPrendas().stream().filter(this.filtro(usuario)).toList();
+  public List<List<Prenda>> generarSugerencias(Usuario usuario, List<Prenda> prendas) {
+    prendas = prendas.stream().filter(this.filtro(usuario)).toList();
     return Cartesiano.producto(
         List.of(
             this.filtrarSuperior(prendas),
@@ -39,18 +38,14 @@ public abstract class MotorSugerencia {
   }
 
   private List<Prenda> filtrarCategoria(List<Prenda> prendas, Categoria categoria){
-    return prendas.stream().filter(prenda -> prenda.getCategoria().equals(categoria)).
+    return prendas.stream().filter(prenda -> prenda.categoria().equals(categoria)).
         collect(Collectors.toList());
   }
 
   private Predicate<Prenda> filtro(Usuario usuario){
-    return this.filtroPropio(usuario).and(prenda ->
-        prenda.sirveEnTemperatura(servicioMeteorologico.getEstadoClima(usuario.getCiudad())
-                .temperatura()));
+    return this.filtroPropio(usuario);
   }
+
   protected abstract Predicate<Prenda> filtroPropio(Usuario usuario);
 
-  public void setServicioMeteorologico(ServicioMeteorologico servicioMeteorologico) {
-    this.servicioMeteorologico = servicioMeteorologico;
-  }
 }

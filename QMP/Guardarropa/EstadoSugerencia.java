@@ -1,4 +1,4 @@
-package QMP;
+package QMP.Guardarropa;
 
 public enum EstadoSugerencia {
   PENDENTE,

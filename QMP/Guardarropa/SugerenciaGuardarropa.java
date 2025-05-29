@@ -1,16 +1,15 @@
 package QMP.Guardarropa;
 
-import QMP.EstadoSugerencia;
 import QMP.Prenda.Prenda;
 import QMP.Usuario;
 
-public abstract class SugerenciaPrenda {
+public abstract class SugerenciaGuardarropa {
   private final Usuario sugeridor;
   private final Prenda prenda;
   private final Guardarropa guardarropa;
   protected EstadoSugerencia estado = EstadoSugerencia.PENDENTE;
 
-  public SugerenciaPrenda(Usuario sugeridor, Prenda prenda, Guardarropa guardarropa) {
+  public SugerenciaGuardarropa(Usuario sugeridor, Prenda prenda, Guardarropa guardarropa) {
     this.sugeridor = sugeridor;
     this.prenda = prenda;
     this.guardarropa = guardarropa;
@@ -30,7 +29,7 @@ public abstract class SugerenciaPrenda {
 
   public void aceptar() {
     if(this.estado != EstadoSugerencia.PENDENTE) {
-      throw new RuntimeException("Sugerencia ya tratada");
+      throw new SugerenciaException("Sugerencia ya tratada");
     }
     estado = EstadoSugerencia.ACEPTADA;
     this.exec(guardarropa);
@@ -38,7 +37,7 @@ public abstract class SugerenciaPrenda {
 
   public void rechazar() {
     if(this.estado == EstadoSugerencia.RECHAZADA) {
-      throw new RuntimeException("Sugerencia ya rechazada");
+      throw new SugerenciaException("Sugerencia ya rechazada");
     }
     if (this.estado == EstadoSugerencia.ACEPTADA) {
       this.rollback(guardarropa);

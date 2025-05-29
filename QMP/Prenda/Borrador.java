@@ -7,6 +7,9 @@ public class Borrador {
   private String colorSecundario;
   private Patron patron;
   private Formalidad formalidad;
+  private double tempMaxima;
+  private double tempMinima;
+
 
   public Borrador(Tipo tipo) {
     this.tipo = tipo;
@@ -37,8 +40,19 @@ public class Borrador {
     return this;
   }
 
+  public Borrador setTempMaxima(double tempMaxima) {
+    this.tempMaxima = tempMaxima;
+    return this;
+  }
+
+  public Borrador setTempMinima(double tempMinima) {
+    this.tempMinima = tempMinima;
+    return this;
+  }
+
   public Prenda generarPrenda() {
-    return new Prenda(tipo, colorPrincipal, colorSecundario, tela, patron, formalidad);
+    return new Prenda(tipo, colorPrincipal, colorSecundario, tela, patron, formalidad,
+        tempMaxima, tempMinima);
   }
 
 }

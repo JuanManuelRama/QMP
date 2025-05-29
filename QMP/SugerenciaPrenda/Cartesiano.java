@@ -1,8 +1,9 @@
-package QMP;
+package QMP.SugerenciaPrenda;
 
 import java.util.ArrayList;
 import java.util.List;
 
+//No es que esté abstrayendo esto, solo quiero poder llamar al método sin importar nada
 public class Cartesiano {
   public static <T> List<List<T>> producto(List<List<T>> lists) {
     List<List<T>> result = new ArrayList<>();

@@ -1,13 +1,13 @@
-package QMP;
+package QMP.SugerenciaPrenda;
 
 import QMP.Clima.ServicioMeteorologico;
 import QMP.Prenda.Prenda;
+import QMP.Usuario;
 import java.util.function.Predicate;
 
 public class MotorSugerenciaTodas extends MotorSugerencia {
 
-  public MotorSugerenciaTodas(ServicioMeteorologico servicioMeteorologico) {
-    super(servicioMeteorologico);
+  public MotorSugerenciaTodas() {
   }
 
   @Override

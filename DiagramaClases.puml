@@ -3,13 +3,15 @@ top to bottom direction
 
 class Prenda {
     +Tipo
-    +Formalidad
     +Material
-    +Patron
     +ColorPrimario
     +ColorSecundario
+    +Patron
+    +Formalidad
     +TempMaxima
     +TempMinima
+
+    +sirveEnTemperatura(temperatura)
 }
 
 enum Categoria {
@@ -41,30 +43,42 @@ enum Material {
 
 class Usuario {
     +edad
-    +prendas
+    +Guardarropas
     +motorSugerencia
+
+    +getPrendas()
+}
+
+enum Formalidad {
+    FORMAL
+    INFORMAL
+    NEUTRA
 }
 
 abstract class MotorSugerencia {
-    +servicioMeteorologico
 
-    +generarSugerencia(Usuario)
-    #filtroPropio(Usuario) {abstract}
+    +generarSugerencia(usuario, prendas)
+    #filtroPropio(usuario) {abstract}
 }
 
 class MotorSugerenciaTodas {
-    #filtroPropio(Usuario)
+    #filtroPropio(usuario)
 }
 
 class MotorSugerenciaEdad {
-    #filtroPropio(Usuario)
+    #filtroPropio(usuario)
 }
 
+class MotorSugerenciaClima {
+    -servicioMeteorologico
+
+    #filtroPropio(usuario)
+}
 abstract class ServicioMeteorologico {
    -periodoValidez
    -consultas
-   +getEstadoClima(Ciudad)
-   #getClima(Ciudad) {abstract}
+   +getEstadoClima(ciudad)
+   #getClima(ciudad) {abstract}
 
 
 }
@@ -83,11 +97,11 @@ class RespuestaClima {
 
 class ServicioMeteorologicoAccuWeather{
     -accuWeather
-    #getClima(Ciudad)
+    #getClima(ciudad)
 }
 
 class AccuWeatherApi {
-    +getWeather()
+    +getWeather(ciudad)
 }
 
 
@@ -102,14 +116,16 @@ enum Humedad {
 Prenda *-- Patron
 Prenda *-- Tipo
 Prenda *-- Material
+Prenda *-- Formalidad
 Tipo *-- Categoria
 Usuario *-- Prenda
 Usuario ..> MotorSugerencia
-MotorSugerencia --> MotorSugerenciaEdad
-MotorSugerencia --> MotorSugerenciaTodas
-MotorSugerencia ..> ServicioMeteorologico
+MotorSugerencia <-- MotorSugerenciaEdad
+MotorSugerencia <-- MotorSugerenciaTodas
+MotorSugerencia <-- MotorSugerenciaClima
+MotorSugerenciaClima ..> ServicioMeteorologico
 MotorSugerencia ..> Prenda
-ServicioMeteorologico --> ServicioMeteorologicoAccuWeather
+ServicioMeteorologico <-- ServicioMeteorologicoAccuWeather
 ServicioMeteorologico ..> RespuestaClima
 RespuestaClima *--EstadoClima
 EstadoClima *-- Humedad

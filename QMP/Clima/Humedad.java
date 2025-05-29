@@ -14,7 +14,7 @@ public enum Humedad {
     return nombre;
   }
 
-  public static Humedad getHumedad(int humedad) {
+  public static Humedad getHumedad(double humedad) {
     return humedad > 0.8 ? Humedad.ALTA : Humedad.BAJA;
   }
 }

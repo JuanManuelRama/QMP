@@ -3,10 +3,10 @@ package QMP.Guardarropa;
 import QMP.Prenda.Prenda;
 import QMP.Usuario;
 
-public class SugerenciaAdd extends SugerenciaPrenda {
+public class SugerenciaAdd extends SugerenciaGuardarropa {
 
-  public SugerenciaAdd(Usuario sugeridor, Prenda prenda) {
-    super(sugeridor, prenda);
+  public SugerenciaAdd(Usuario sugeridor, Prenda prenda, Guardarropa guardarropa) {
+    super(sugeridor, prenda, guardarropa);
   }
 
   @Override

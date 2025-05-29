@@ -16,7 +16,8 @@ public class ServicioMeteorologicoAccuWeather extends ServicioMeteorologico {
   @Override
   public EstadoClima getClima(String ciudad) {
     Map<String, Object> clima = accuWeatherApi.getWeather(ciudad);
-    return new EstadoClima((int)clima.get("Temperatura"),
-        Humedad.getHumedad((int)clima.get("Humedad")));
+    return new EstadoClima(
+        (double) clima.get("Temperatura"),
+        Humedad.getHumedad((double) clima.get("Humedad")));
   }
 }
