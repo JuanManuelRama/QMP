@@ -13,7 +13,7 @@ public class MotorSugerenciaEdad extends MotorSugerencia {
 
   @Override
   protected Predicate<Prenda> filtroPropio(Usuario usuario) {
-    return prenda -> usuario.getEdad() <= 50
+    return prenda -> !usuario.esAdultoMayor()
         || prenda.formalidad().equals(Formalidad.FORMAL);
   }
 }

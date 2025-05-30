@@ -42,4 +42,8 @@ public class Usuario {
         .collect(Collectors.toList());
   }
 
+  public boolean esAdultoMayor() {
+    return this.edad > 50;
+  }
+
 }
