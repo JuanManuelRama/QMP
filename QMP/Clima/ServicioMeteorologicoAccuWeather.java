@@ -1,14 +1,12 @@
 package QMP.Clima;
 
-import java.time.Duration;
 import java.util.Map;
 
-public class ServicioMeteorologicoAccuWeather extends ServicioMeteorologico {
+public class ServicioMeteorologicoAccuWeather implements ServicioMeteorologico {
 
   private final AccuWeatherApi accuWeatherApi;
 
-  public ServicioMeteorologicoAccuWeather(AccuWeatherApi accuWeatherApi, Duration periodoValidez) {
-    super(periodoValidez);
+  public ServicioMeteorologicoAccuWeather(AccuWeatherApi accuWeatherApi) {
     this.accuWeatherApi = accuWeatherApi;
   }
 

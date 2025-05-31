@@ -74,13 +74,19 @@ class MotorSugerenciaClima {
 
     #filtroPropio(usuario)
 }
-abstract class ServicioMeteorologico {
+
+interface ServicioMeteorologico {
+    +getClima()
+}
+
+class ServicioMeteorologicoCacheado {
    -periodoValidez
    -consultas
-   +getEstadoClima(ciudad)
-   #getClima(ciudad) {abstract}
+   -servicioMeteorologico
+}
 
-
+class ServicioMeteorologicoAccuWeather{
+    -accuWeather
 }
 
 class EstadoClima {
@@ -95,10 +101,7 @@ class RespuestaClima {
     +isExpired()
 }
 
-class ServicioMeteorologicoAccuWeather{
-    -accuWeather
-    #getClima(ciudad)
-}
+
 
 class AccuWeatherApi {
     +getWeather(ciudad)
@@ -120,13 +123,16 @@ Prenda *-- Formalidad
 Tipo *-- Categoria
 Usuario *-- Prenda
 Usuario ..> MotorSugerencia
-MotorSugerencia <-- MotorSugerenciaEdad
-MotorSugerencia <-- MotorSugerenciaTodas
-MotorSugerencia <-- MotorSugerenciaClima
+MotorSugerencia <|-- MotorSugerenciaEdad
+MotorSugerencia <|-- MotorSugerenciaTodas
+MotorSugerencia <|-- MotorSugerenciaClima
 MotorSugerenciaClima ..> ServicioMeteorologico
 MotorSugerencia ..> Prenda
-ServicioMeteorologico <-- ServicioMeteorologicoAccuWeather
-ServicioMeteorologico ..> RespuestaClima
+ServicioMeteorologico <|.. ServicioMeteorologicoAccuWeather
+ServicioMeteorologico <|.. ServicioMeteorologicoCacheado
+ServicioMeteorologicoCacheado *-- ServicioMeteorologico
+ServicioMeteorologico ..> EstadoClima
+ServicioMeteorologicoCacheado ..> RespuestaClima
 RespuestaClima *--EstadoClima
 EstadoClima *-- Humedad
 ServicioMeteorologicoAccuWeather ..> AccuWeatherApi

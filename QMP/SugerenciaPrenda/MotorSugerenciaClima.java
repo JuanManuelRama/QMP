@@ -15,6 +15,6 @@ public class MotorSugerenciaClima extends MotorSugerencia {
   @Override
   protected Predicate<Prenda> filtroPropio(Usuario usuario) {
     return prenda ->
-        prenda.sirveEnClima(servicioMeteorologico.getEstadoClima(usuario.getCiudad()));
+        prenda.sirveEnClima(servicioMeteorologico.getClima(usuario.getCiudad()));
   }
 }
