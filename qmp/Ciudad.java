@@ -37,13 +37,9 @@ public class Ciudad {
   }
 
   public void updateAlertas() {
-    List<Alertas> nuevasAlertas = servicioMeteorologico.getAlertas(this);
-    if ( !nuevasAlertas.equals(this.alertas)) {
-      UsuarioRepo.getInstance().getUsuarios().stream().filter(
-          usuario -> usuario.getCiudad().equals(this)
-      ).forEach(usuario -> usuario.accionar(nuevasAlertas));
-      this.alertas = nuevasAlertas;
-    }
-
+    this.alertas = servicioMeteorologico.getAlertas(this);
+    UsuarioRepo.getInstance().getUsuarios().stream().filter(
+        usuario -> usuario.getCiudad().equals(this)
+    ).forEach(usuario -> usuario.accionar(this.alertas));
   }
 }
