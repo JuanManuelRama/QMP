@@ -77,6 +77,7 @@ class MotorSugerenciaClima {
 
 interface ServicioMeteorologico {
     +getClima()
+    +getAlertas()
 }
 
 class ServicioMeteorologicoCacheado {
@@ -105,6 +106,7 @@ class RespuestaClima {
 
 class AccuWeatherApi {
     +getWeather(ciudad)
+    +getAllerts(ciudad)
 }
 
 
@@ -114,6 +116,84 @@ enum Humedad {
     BAJA
 }
 
+class Guardarropa {
+    +prendas
+    +colaboradores
+}
+
+abstract class SugerenciaPrenda {
+    +sugeridor
+    +prenda
+    +guardarropa
+    +estado
+
+    +aceptar()
+    +rechazar()
+    #ejecutar() {abstract}
+    #rollback() {abstract}
+}
+
+class SugerenciaAgregar {
+    #ejecutar()
+    #rollback()
+}
+
+class SugerenciaEliminar {
+    #ejecutar()
+    #rollback()
+}
+
+enum EstadoSugerencia {
+    PENDIENTE
+    ACEPTADA
+    RECHAZADA
+}
+
+interface Accion {
+    +notificar(usuario, alertas)
+}
+
+class ActualizarSugerencias {
+    +notificar(usuario, alertas)
+}
+
+class MailsAlerta {
+    +notificar(usuario, alertas)
+}
+
+class NotificarGranzio {
+    +notificar(usuario, alertas)
+}
+
+class NotificarTormenta {
+    +notificar(usuario, alertas)
+}
+
+interface MailSender {
+    +send(address, message)
+}
+
+interface NotificationService {
+    +notify(text)
+}
+
+enum Alertas {
+    TORMENTA
+    GRANIZO
+}
+class RespuestaAlertas {
+    +alreta
+    +tiempo
+}
+
+class Ciudad {
+    +nombre
+    +alertas
+    +servicioMeteorologico
+
+    +getAlertas()
+    +updateAlertas()
+}
 
 
 Prenda *-- Patron
@@ -131,9 +211,31 @@ MotorSugerencia ..> Prenda
 ServicioMeteorologico <|.. ServicioMeteorologicoAccuWeather
 ServicioMeteorologico <|.. ServicioMeteorologicoCacheado
 ServicioMeteorologicoCacheado *-- ServicioMeteorologico
-ServicioMeteorologico ..> EstadoClima
+ServicioMeteorologico --> EstadoClima
 ServicioMeteorologicoCacheado ..> RespuestaClima
 RespuestaClima *--EstadoClima
 EstadoClima *-- Humedad
 ServicioMeteorologicoAccuWeather ..> AccuWeatherApi
+
+Usuario ..> Guardarropa
+Guardarropa <.. SugerenciaPrenda
+SugerenciaPrenda *-- EstadoSugerencia
+SugerenciaPrenda <|-- SugerenciaAgregar
+SugerenciaPrenda <|-- SugerenciaEliminar
+
+Usuario ..> Accion
+Accion <|-- ActualizarSugerencias
+Accion <|-- MailsAlerta
+Accion <|-- NotificarGranzio
+Accion <|-- NotificarTormenta
+
+MailsAlerta --> MailSender
+NotificarGranzio ..> NotificationService
+NotificarTormenta ..> NotificationService
+Usuario ..> Ciudad
+Ciudad ..> Alertas
+ServicioMeteorologicoCacheado ..> RespuestaAlertas
+RespuestaAlertas *-- Alertas
+ServicioMeteorologico --> Alertas
+
 @enduml
